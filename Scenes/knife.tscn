@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://baepcc3logy43"]
+
+[ext_resource type="Texture2D" uid="uid://cwcd5dtimosvx" path="res://Assets/Characters/PrisonGuard/knife_warning.png" id="1_k4pir"]
+[ext_resource type="Texture2D" uid="uid://tb7l55c3h1fv" path="res://Assets/Characters/PrisonGuard/Knife.png" id="2_pgkuq"]
+[ext_resource type="Script" uid="uid://bsstpn71s6r0o" path="res://Cudes/Knife.gd" id="2_ts28m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdqfc"]
+size = Vector2(3.46361, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4pir"]
+size = Vector2(584, 78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pgkuq"]
+size = Vector2(584, 78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts28m"]
+size = Vector2(39.32, 72.1231)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f45h6"]
+size = Vector2(39.32, 72.1231)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6dub5"]
+size = Vector2(94, 36)
+
+[node name="Knife" type="Node2D"]
+
+[node name="Knfie_warning" type="Sprite2D" parent="."]
+scale = Vector2(1.15487, 1.15487)
+texture = ExtResource("1_k4pir")
+offset = Vector2(0, -240)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+scale = Vector2(1.15487, 1.15487)
+collision_layer = 0
+script = ExtResource("2_ts28m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -10.3908)
+shape = SubResource("RectangleShape2D_kdqfc")
+
+[node name="Knife_attack" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("2_pgkuq")
+offset = Vector2(0, -240)
+
+[node name="Area2D" type="Area2D" parent="CharacterBody2D/Knife_attack"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Knife_attack/Area2D"]
+position = Vector2(-348, -39)
+shape = SubResource("RectangleShape2D_k4pir")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CharacterBody2D/Knife_attack/Area2D"]
+position = Vector2(348, -39)
+shape = SubResource("RectangleShape2D_pgkuq")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="CharacterBody2D/Knife_attack/Area2D"]
+position = Vector2(-53.5994, -60.5975)
+rotation = 0.785284
+shape = SubResource("RectangleShape2D_ts28m")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="CharacterBody2D/Knife_attack/Area2D"]
+position = Vector2(53, -61)
+rotation = 2.35629
+shape = SubResource("RectangleShape2D_f45h6")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="CharacterBody2D/Knife_attack/Area2D"]
+position = Vector2(0, -81)
+shape = SubResource("RectangleShape2D_6dub5")
+
+[connection signal="area_entered" from="CharacterBody2D/Knife_attack/Area2D" to="CharacterBody2D" method="_on_area_2d_area_entered"]

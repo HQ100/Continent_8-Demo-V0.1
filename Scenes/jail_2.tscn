@@ -1,0 +1,311 @@
+[gd_scene load_steps=31 format=4 uid="uid://dwljmupe6pjri"]
+
+[ext_resource type="Texture2D" uid="uid://be28hlwq4jrdx" path="res://Assets/Environment/Jail/BricksTileset.png" id="1_2bwik"]
+[ext_resource type="Script" uid="uid://b1hi3ld1r63to" path="res://Cudes/jail_2.gd" id="1_yy3qy"]
+[ext_resource type="Texture2D" uid="uid://d0bredwe2j206" path="res://Assets/Environment/Jail/BricksWallTileset.png" id="2_wt5dw"]
+[ext_resource type="Texture2D" uid="uid://dihdk7lrfrfhg" path="res://Assets/Environment/Jail/JailBackground1.png" id="3_i7vcv"]
+[ext_resource type="Texture2D" uid="uid://cawu6msvq1nqq" path="res://Assets/Environment/Jail/CellOpened1.png" id="4_yy3qy"]
+[ext_resource type="Texture2D" uid="uid://7g8ar1wd3you" path="res://Assets/Environment/Jail/JailTable.png" id="5_eximd"]
+[ext_resource type="Texture2D" uid="uid://dkd4eu6s7vldx" path="res://Assets/Environment/Jail/CellClosed1.png" id="5_n5vt3"]
+[ext_resource type="Texture2D" uid="uid://do8rnuamnjko5" path="res://Assets/Environment/Jail/CellInside.png" id="7_0n60k"]
+[ext_resource type="Texture2D" uid="uid://dg6qpiuxvk1b3" path="res://Assets/Environment/Jail/Light.png" id="8_kadfr"]
+[ext_resource type="Texture2D" uid="uid://dpme26cj0sv5d" path="res://Assets/Environment/Jail/Bars-Sheet.png" id="8_wg4or"]
+[ext_resource type="Texture2D" uid="uid://84jrjvhraeu8" path="res://Assets/Environment/Jail/Chains.png" id="9_eximd"]
+[ext_resource type="Texture2D" uid="uid://dhrgevcnok3dp" path="res://Assets/Environment/Jail/prisondoor1.png" id="10_kadfr"]
+[ext_resource type="Texture2D" uid="uid://c8syvtxyu33tn" path="res://Assets/Environment/Jail/prisondoor2.png" id="11_v22na"]
+[ext_resource type="Texture2D" uid="uid://ru7f3iym3cek" path="res://Assets/Environment/Jail/Lever-Sheet.png" id="13_ymtgu"]
+[ext_resource type="PackedScene" uid="uid://dt2w6qsg5d7a0" path="res://Scenes/slave_2.tscn" id="14_wg4or"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wt5dw"]
+texture = ExtResource("1_2bwik")
+texture_region_size = Vector2i(33, 22)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16.5, -11, 16.5, -11, 16.5, 11, -16.5, 11)
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_82r2s"]
+tile_size = Vector2i(33, 22)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_wt5dw")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymtgu"]
+atlas = ExtResource("8_wg4or")
+region = Rect2(0, 0, 209, 139)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5d1f"]
+atlas = ExtResource("8_wg4or")
+region = Rect2(209, 0, 209, 139)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0lk1k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymtgu")
+}],
+"loop": true,
+"name": &"Closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5d1f")
+}],
+"loop": true,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_82r2s"]
+texture = ExtResource("2_wt5dw")
+texture_region_size = Vector2i(11, 22)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5.5, -11, 5.5, -11, 5.5, 11, -5.5, 11)
+0:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3ym6w"]
+tile_size = Vector2i(11, 22)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_82r2s")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3n6cm"]
+atlas = ExtResource("13_ymtgu")
+region = Rect2(10, 0, 10, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lk1k"]
+atlas = ExtResource("13_ymtgu")
+region = Rect2(0, 0, 10, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xw6cy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3n6cm")
+}],
+"loop": true,
+"name": &"activated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lk1k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v22na"]
+size = Vector2(14, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q8bnm"]
+size = Vector2(20, 77)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wg4or"]
+size = Vector2(42, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ymtgu"]
+size = Vector2(32, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a5d1f"]
+size = Vector2(42, 72)
+
+[node name="jail2" type="Node2D"]
+script = ExtResource("1_yy3qy")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="fade" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1000.0
+offset_bottom = 1000.0
+color = Color(1, 1, 1, 0)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -466.0
+offset_top = -1522.0
+offset_right = 2534.0
+offset_bottom = 1478.0
+color = Color(0, 0, 0, 1)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAKAAMAAAAAAAAAAAALAAMAAAAAAAAAAAAMAAMAAAAAAAAAAAANAAMAAAAAAAAAAAAOAAMAAAAAAAAAAAAPAAMAAAAAAAAAAAAQAAMAAAAAAAAAAAARAAMAAAAAAAAAAAASAAMAAAAAAAAAAAATAAMAAAAAAAAAAAAUAAMAAAAAAAAAAAAVAAMAAAAAAAAAAAAWAAMAAAAAAAAAAAAXAAMAAAAAAAAAAAAYAAMAAAAAAAAAAAAZAAMAAAAAAAAAAAAaAAMAAAAAAAAAAAAbAAMAAAAAAAAAAAAcAAMAAAAAAAAAAAAcAAwAAAAAAAAAAAAbAAwAAAAAAAAAAAAaAAwAAAAAAAAAAAAZAAwAAAAAAAAAAAAYAAwAAAAAAAAAAAAXAAwAAAAAAAAAAAAWAAwAAAAAAAAAAAAVAAwAAAAAAAAAAAAUAAwAAAAAAAAAAAATAAwAAAAAAAAAAAASAAwAAAAAAAAAAAARAAwAAAAAAAAAAAAQAAwAAAAAAAAAAAAPAAwAAAAAAAAAAAAOAAwAAAAAAAAAAAANAAwAAAAAAAAAAAAMAAwAAAAAAAAAAAALAAwAAAAAAAAAAAAKAAwAAAAAAAAAAAAJAAwAAAAAAAAAAAAIAAwAAAAAAAAAAAAHAAwAAAAAAAAAAAAGAAwAAAAAAAAAAAAFAAwAAAAAAAAAAAAEAAwAAAAAAAAAAAADAAwAAAAAAAAAAAACAAwAAAAAAAAAAAABAAwAAAAAAAAAAAAdAAMAAAAAAAAAAAAeAAMAAAAAAAAAAAAfAAMAAAAAAAAAAAAgAAMAAAAAAAAAAAAhAAMAAAAAAAAAAAAiAAMAAAAAAAAAAAAjAAMAAAAAAAAAAAAkAAMAAAAAAAAAAAAlAAMAAAAAAAAAAAAdAAwAAAAAAAAAAAAeAAwAAAAAAAAAAAAfAAwAAAAAAAAAAAAgAAwAAAAAAAAAAAAhAAwAAAAAAAAAAAAiAAwAAAAAAAAAAAAjAAwAAAAAAAAAAAAkAAwAAAAAAAAAAAAlAAwAAAAAAAAAAAAmAAwAAAAAAAAAAAAmAAMAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_82r2s")
+
+[node name="JailBackground1" type="Sprite2D" parent="."]
+position = Vector2(204, 176)
+texture = ExtResource("3_i7vcv")
+
+[node name="JailBackground2" type="Sprite2D" parent="."]
+position = Vector2(502, 176)
+texture = ExtResource("3_i7vcv")
+
+[node name="JailBackground3" type="Sprite2D" parent="."]
+position = Vector2(800, 176)
+texture = ExtResource("3_i7vcv")
+
+[node name="JailBackground4" type="Sprite2D" parent="."]
+position = Vector2(1098, 176)
+texture = ExtResource("5_eximd")
+
+[node name="CellOpened1" type="Sprite2D" parent="."]
+position = Vector2(193, 194.5)
+texture = ExtResource("4_yy3qy")
+
+[node name="CellClosed1" type="Sprite2D" parent="."]
+position = Vector2(474, 194.5)
+texture = ExtResource("5_n5vt3")
+
+[node name="CellInside" type="Sprite2D" parent="."]
+position = Vector2(750, 194.5)
+texture = ExtResource("7_0n60k")
+
+[node name="Slave2" parent="." instance=ExtResource("14_wg4or")]
+position = Vector2(774, 216)
+
+[node name="Bars" type="AnimatedSprite2D" parent="."]
+position = Vector2(750, 194.5)
+sprite_frames = SubResource("SpriteFrames_0lk1k")
+animation = &"Closed"
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAADAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAYAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAEAAkAAAAAAAAAAAADAAkAAAAAAAAAAAADAAoAAAAAAAAAAAAEAAoAAAAAAAAAAAAEAAsAAAAAAAAAAAADAAsAAAAAAAAAAABxAAQAAAAAAAAAAABxAAUAAAAAAAAAAABxAAYAAAAAAAAAAABwAAQAAAAAAAAAAABwAAUAAAAAAAAAAABwAAYAAAAAAAAAAABwAAcAAAAAAAAAAABxAAcAAAAAAAAAAABwAAgAAAAAAAEAAABxAAgAAAAAAAEAAABxAAkAAAAAAAEAAABwAAkAAAAAAAEAAABwAAoAAAAAAAEAAABxAAoAAAAAAAEAAABxAAsAAAAAAAEAAABwAAsAAAAAAAEAAAByAAgAAAAAAAEAAAByAAkAAAAAAAEAAAByAAoAAAAAAAEAAAByAAsAAAAAAAEAAAByAAQAAAAAAAAAAAByAAUAAAAAAAAAAAByAAYAAAAAAAAAAAByAAcAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_3ym6w")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(118, 182)
+limit_left = -100
+limit_top = 2
+limit_right = 1395
+limit_bottom = 362
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1156, 222)
+scale = Vector2(0.125, 0.125)
+color = Color(1, 0.607843, 0.101961, 1)
+shadow_enabled = true
+texture = ExtResource("8_kadfr")
+
+[node name="Chains" type="Sprite2D" parent="."]
+position = Vector2(203, 109)
+texture = ExtResource("9_eximd")
+
+[node name="Chains2" type="Sprite2D" parent="."]
+position = Vector2(513, 109)
+texture = ExtResource("9_eximd")
+
+[node name="Chains3" type="Sprite2D" parent="."]
+position = Vector2(759, 109)
+texture = ExtResource("9_eximd")
+
+[node name="Lever" type="AnimatedSprite2D" parent="."]
+position = Vector2(885, 217)
+sprite_frames = SubResource("SpriteFrames_xw6cy")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 1156.0
+offset_top = 221.0
+offset_right = 1157.0
+offset_bottom = 222.0
+color = Color(0.796078, 0.254902, 0, 0.780392)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+top_level = true
+z_index = 2
+offset_left = 1265.0
+offset_top = 45.0
+offset_right = 1305.0
+offset_bottom = 313.0
+color = Color(0, 0, 0, 1)
+
+[node name="Prisondoor1" type="Sprite2D" parent="."]
+position = Vector2(1248.5, 194)
+texture = ExtResource("10_kadfr")
+
+[node name="Prisondoor2" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(1255, 194)
+texture = ExtResource("11_v22na")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1246, 184)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_v22na")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1251, 184)
+collision_layer = 0
+collision_mask = 10
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(36, 41.5)
+shape = SubResource("RectangleShape2D_q8bnm")
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+z_index = 1
+position = Vector2(620, 9)
+scale = Vector2(11.247, 1)
+blend_mode = 1
+shadow_enabled = true
+texture = ExtResource("8_kadfr")
+
+[node name="PointLight2D3" type="PointLight2D" parent="."]
+z_index = 1
+position = Vector2(620, 334)
+scale = Vector2(11.247, 1)
+blend_mode = 1
+shadow_enabled = true
+texture = ExtResource("8_kadfr")
+
+[node name="PointLight2D4" type="PointLight2D" parent="."]
+z_index = 1
+position = Vector2(-37, 180)
+blend_mode = 1
+shadow_enabled = true
+texture = ExtResource("8_kadfr")
+
+[node name="Slave2CellDoor" type="Area2D" parent="."]
+position = Vector2(672, 229)
+collision_layer = 0
+collision_mask = 10
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slave2CellDoor"]
+position = Vector2(2, -1)
+shape = SubResource("RectangleShape2D_wg4or")
+
+[node name="Slave2CellLever" type="Area2D" parent="."]
+position = Vector2(706, 229)
+collision_layer = 2
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slave2CellLever"]
+position = Vector2(179, -1)
+shape = SubResource("RectangleShape2D_ymtgu")
+
+[node name="Slave2ignoring" type="Area2D" parent="."]
+position = Vector2(1185, 229)
+collision_layer = 2
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slave2ignoring"]
+position = Vector2(2, -1)
+shape = SubResource("RectangleShape2D_a5d1f")
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+z_index = 5
+offset_left = 1270.0
+offset_top = 178.0
+offset_right = 1310.0
+offset_bottom = 218.0
+scale = Vector2(5.6768, 5.6768)
+color = Color(0, 0, 0, 1)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Slave2CellDoor" to="." method="_on_slave_2_cell_door_area_entered"]
+[connection signal="area_entered" from="Slave2CellLever" to="." method="_on_slave_2_cell_lever_area_entered"]
+[connection signal="area_exited" from="Slave2CellLever" to="." method="_on_slave_2_cell_lever_area_exited"]
+[connection signal="area_entered" from="Slave2ignoring" to="." method="_on_slave_2_ignoring_area_entered"]

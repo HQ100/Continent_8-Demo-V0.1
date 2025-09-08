@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5x5xnimdx4uc"]
+
+[ext_resource type="Texture2D" uid="uid://bcblni045vqba" path="res://Assets/Characters/Slave2/Slave2head.png" id="1_21ylf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyd7m"]
+size = Vector2(12, 16)
+
+[node name="Slave2head" type="RigidBody2D"]
+collision_layer = 8
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_21ylf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cyd7m")

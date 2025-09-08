@@ -1,0 +1,215 @@
+[gd_scene load_steps=24 format=4 uid="uid://dhtamcf7iygca"]
+
+[ext_resource type="Script" uid="uid://bjcvy2b67e0yq" path="res://Cudes/jail_3.gd" id="1_cq7vp"]
+[ext_resource type="PackedScene" uid="uid://dy5j2aqwhqb2f" path="res://Scenes/prison_guard.tscn" id="3_3s3k0"]
+[ext_resource type="Texture2D" uid="uid://ckxxu63y1b8q0" path="res://Assets/Environment/Jail/Mountains.png" id="3_es4ic"]
+[ext_resource type="Texture2D" uid="uid://y628nsjxlwqr" path="res://Assets/Environment/Jail/TempBGasd.png" id="3_jkvy7"]
+[ext_resource type="Texture2D" uid="uid://c5sxtl57jmq6v" path="res://Assets/Environment/Jail/DirtSheet.png" id="4_5vjyc"]
+[ext_resource type="Texture2D" uid="uid://csx1jip430wqu" path="res://Assets/Environment/Jail/Clouds.png" id="5_f4wv4"]
+[ext_resource type="Texture2D" uid="uid://dcu4d472hqqvi" path="res://Assets/Environment/Jail/Wall.png" id="6_fa0cr"]
+[ext_resource type="Texture2D" uid="uid://b0w6v1n7ja5pu" path="res://Assets/Environment/Jail/items.png" id="8_qkg3x"]
+[ext_resource type="Texture2D" uid="uid://b7eji6wjjqyhe" path="res://Assets/Environment/Jail/wall2.png" id="9_7xomk"]
+[ext_resource type="Texture2D" uid="uid://c6o0fk22nayde" path="res://Assets/Environment/Jail/prisondoor3.png" id="9_jkvy7"]
+[ext_resource type="PackedScene" uid="uid://b5x5xnimdx4uc" path="res://Scenes/Slave2head.tscn" id="11_kgyrn"]
+[ext_resource type="Texture2D" uid="uid://chm36lfn2r1ny" path="res://Assets/UI_assets/HealthBar_under.png" id="12_eird0"]
+[ext_resource type="Texture2D" uid="uid://durclohri2yjs" path="res://Assets/UI_assets/HealthBar_over.png" id="13_jkvy7"]
+[ext_resource type="Texture2D" uid="uid://v5h7r2jmnuga" path="res://Assets/UI_assets/HealthBar_progress.png" id="14_5sror"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f4wv4"]
+texture = ExtResource("4_5vjyc")
+texture_region_size = Vector2i(32, 18)
+1:0/0 = 0
+1:1/0 = 0
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -7.55407, 16, -7.55407, 16, 9, -16, 9)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -9, 16, -9, 16, 9, -16, 9)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -9, 16, -9, 16, 9, -16, 9)
+
+[sub_resource type="TileSet" id="TileSet_fa0cr"]
+tile_size = Vector2i(32, 18)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_f4wv4")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4phhx"]
+size = Vector2(20, 533)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ufhwx"]
+size = Vector2(20, 548)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kgyrn"]
+size = Vector2(20, 587)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kgyrn"]
+bounce = 0.5
+
+[sub_resource type="Animation" id="Animation_jkvy7"]
+resource_name = "Health_bar"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5sror"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_peoci"]
+_data = {
+&"Health_bar": SubResource("Animation_jkvy7"),
+&"RESET": SubResource("Animation_5sror")
+}
+
+[node name="jail_3" type="Node2D"]
+script = ExtResource("1_cq7vp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+limit_left = 0
+limit_top = -255
+limit_right = 736
+limit_bottom = 360
+position_smoothing_enabled = true
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAABEAAAAAAAAAAAABABEAAAAAAAAAAAACABEAAAAAAAAAAAADABEAAAAAAAAAAAAEABEAAAAAAAAAAAAFABEAAAAAAAAAAAAGABEAAAAAAAAAAAAHABEAAAAAAAAAAAAIABEAAAAAAAAAAAAJABEAAAAAAAAAAAAKABEAAAAAAAAAAAALABEAAAAAAAAAAAAMABEAAAAAAAAAAAANABEAAAAAAAAAAAAOABEAAAAAAAAAAAAPABEAAAAAAAAAAAAQABEAAAAAAAAAAAARABEAAAAAAAAAAAASABEAAAAAAAAAAAATABEAAAAAAAAAAAAAABIAAAAAAAEAAAABABIAAAAAAAEAAAACABIAAAAAAAEAAAADABIAAAAAAAEAAAAEABIAAAAAAAEAAAAFABIAAAAAAAEAAAAGABIAAAAAAAEAAAAHABIAAAAAAAEAAAAIABIAAAAAAAEAAAAJABIAAAAAAAEAAAAKABIAAAAAAAEAAAALABIAAAAAAAEAAAAMABIAAAAAAAEAAAANABIAAAAAAAEAAAAOABIAAAAAAAEAAAAPABIAAAAAAAEAAAAQABIAAAAAAAEAAAARABIAAAAAAAEAAAASABIAAAAAAAEAAAATABIAAAAAAAEAAAAAABMAAAAAAAIAAAABABMAAAAAAAIAAAACABMAAAAAAAIAAAADABMAAAAAAAIAAAAEABMAAAAAAAIAAAAFABMAAAAAAAIAAAAGABMAAAAAAAIAAAAHABMAAAAAAAIAAAAIABMAAAAAAAIAAAAJABMAAAAAAAIAAAAKABMAAAAAAAIAAAALABMAAAAAAAIAAAAMABMAAAAAAAIAAAANABMAAAAAAAIAAAAOABMAAAAAAAIAAAAPABMAAAAAAAIAAAAQABMAAAAAAAIAAAARABMAAAAAAAIAAAASABMAAAAAAAIAAAATABMAAAAAAAIAAAAUABEAAAAAAAAAAAAVABEAAAAAAAAAAAAWABEAAAAAAAAAAAAUABIAAAAAAAEAAAAVABIAAAAAAAEAAAAWABIAAAAAAAEAAAAUABMAAAAAAAIAAAAVABMAAAAAAAIAAAAWABMAAAAAAAIAAAA=")
+tile_set = SubResource("TileSet_fa0cr")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -25)
+motion_scale = Vector2(0.05, 0.05)
+motion_mirroring = Vector2(640, 0)
+
+[node name="TempBg" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(320, 205)
+texture = ExtResource("3_jkvy7")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -25)
+motion_scale = Vector2(0, 0.01)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Mountains" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+position = Vector2(320, 205)
+texture = ExtResource("3_es4ic")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -25)
+motion_scale = Vector2(0.2, 0.1)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Clouds" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(320, 62)
+texture = ExtResource("5_f4wv4")
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -25)
+motion_scale = Vector2(1, 0.1)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Wall" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+position = Vector2(416, 205)
+texture = ExtResource("6_fa0cr")
+
+[node name="Wall2" type="Sprite2D" parent="."]
+position = Vector2(14, 206)
+texture = ExtResource("9_7xomk")
+
+[node name="Items" type="Sprite2D" parent="."]
+position = Vector2(-31, 211.5)
+scale = Vector2(-0.75, 0.75)
+texture = ExtResource("8_qkg3x")
+
+[node name="Prisondoor1" type="Sprite2D" parent="."]
+position = Vector2(16.5, 236)
+texture = ExtResource("9_jkvy7")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = -86.0
+offset_right = 33.0
+offset_bottom = 166.0
+color = Color(0.145098, 0.14902, 0.14902, 1)
+
+[node name="ColorRect" type="ColorRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 33.0
+offset_bottom = 392.0
+color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect"]
+layout_mode = 0
+offset_right = 1.0
+offset_bottom = 392.0
+color = Color(0.0666667, 0.0666667, 0.0666667, 1)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -227)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 266.5)
+shape = SubResource("RectangleShape2D_4phhx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(85, 346)
+shape = SubResource("RectangleShape2D_ufhwx")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(746, -227)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(0, 293.5)
+shape = SubResource("RectangleShape2D_kgyrn")
+
+[node name="Slave2head" parent="." instance=ExtResource("11_kgyrn")]
+position = Vector2(364, 245)
+mass = 0.3
+physics_material_override = SubResource("PhysicsMaterial_kgyrn")
+
+[node name="PrisonGuard" parent="." instance=ExtResource("3_3s3k0")]
+position = Vector2(401, -131)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+offset_left = 258.0
+offset_top = 8.0
+offset_right = 298.0
+offset_bottom = 48.0
+max_value = 150.0
+value = 150.0
+texture_under = ExtResource("12_eird0")
+texture_over = ExtResource("13_jkvy7")
+texture_progress = ExtResource("14_5sror")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_peoci")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

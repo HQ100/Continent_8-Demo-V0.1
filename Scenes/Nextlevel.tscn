@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://lvypo6snouhk"]
+
+[ext_resource type="Texture2D" uid="uid://dkak65kegmd01" path="res://Assets/Environment/Jail/3dlevel1.png" id="1_0daep"]
+[ext_resource type="Script" uid="uid://ce1b7j47cbs7l" path="res://Cudes/nextlevel.gd" id="1_gdakx"]
+[ext_resource type="VideoStream" uid="uid://bfxp87hei844t" path="res://Assets/Environment/Jail/0001-0120.ogv" id="2_2aboy"]
+[ext_resource type="Texture2D" uid="uid://cb3brqrsx06bg" path="res://Assets/UI_assets/YellowPoint.png" id="2_v2x4m"]
+[ext_resource type="Texture2D" uid="uid://drjs8jguyw21m" path="res://Assets/UI_assets/YellowLine.png" id="3_gdakx"]
+[ext_resource type="Texture2D" uid="uid://ckevn3mus2jyw" path="res://Assets/UI_assets/YellowX.png" id="4_v2x4m"]
+[ext_resource type="Texture2D" uid="uid://fhwjwciqb2m3" path="res://Assets/Environment/Jail/Jail_first.png" id="7_hrp2s"]
+
+[node name="NextLevel" type="Node2D"]
+script = ExtResource("1_gdakx")
+
+[node name="BlackFade" type="ColorRect" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1000, 1000)
+color = Color(0, 0, 0, 1)
+
+[node name="JailFirst" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+scale = Vector2(0.333, 0.333)
+texture = ExtResource("7_hrp2s")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.333, 0.333)
+stream = ExtResource("2_2aboy")
+
+[node name="3Dlevel1" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+scale = Vector2(0.333, 0.333)
+texture = ExtResource("1_0daep")
+
+[node name="Lines" type="Node2D" parent="."]
+
+[node name="YellowPoint" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(192, 174)
+texture = ExtResource("2_v2x4m")
+
+[node name="YellowLine2" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(221.021, 211)
+rotation = 0.785398
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine3" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(265.021, 235)
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine4" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(312.021, 235)
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine5" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(352.021, 211)
+rotation = -0.785398
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine6" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(390, 184)
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine7" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(430, 211)
+rotation = 0.785398
+texture = ExtResource("3_gdakx")
+
+[node name="YellowLine8" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(470, 235)
+texture = ExtResource("3_gdakx")
+
+[node name="YellowX" type="Sprite2D" parent="Lines"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(512, 235)
+texture = ExtResource("4_v2x4m")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+
+[connection signal="finished" from="VideoStreamPlayer" to="." method="_on_video_stream_player_finished"]
