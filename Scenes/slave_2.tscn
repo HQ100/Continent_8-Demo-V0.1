@@ -737,6 +737,20 @@ vertical_alignment = 1
 [node name="Timer2" type="Timer" parent="."]
 one_shot = true
 
+[node name="Label2" type="Label" parent="."]
+z_index = 2
+offset_left = -176.0
+offset_top = -58.0
+offset_right = 181.0
+offset_bottom = -43.0
+pivot_offset = Vector2(176, 7)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("6_ofx5x")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -26,6 +26,7 @@ var has_talk3_played := false
 var _waiting_next := false
 var label_origin := Vector2.INF
 @onready var lablel_pos_y = $Label.global_position.y
+var Ui_mike = false
 
 func _ready() -> void:
 	pass
@@ -175,7 +176,31 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 	elif anim_name == "WalkHappy_2":
 		ended = true
+	elif anim_name == "Talk3":
+		await get_tree().create_timer(4.6).timeout
+		$Label2.text = "Mike dyson joins the party"
+		party()
+		Ui_mike = true
 
+func party():
+	var label := $Label2
+	var tween := create_tween()
+
+	# Move label up by 50 pixels
+	tween.tween_property(label, "position:y", label.position.y - 25, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	# Fade out (modulate.a = alpha)
+	tween.tween_property(label, "modulate:a", 0.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+	# When finished, reset the label if you want
+	tween.tween_callback(func():
+		label.modulate.a = 1.0
+		label.position.y = label_origin.y
+		label.text = ""
+	)
+
+	
+	
 func _on_timer_timeout() -> void:
 	$Timer.stop()
 	if infront_of_player:
