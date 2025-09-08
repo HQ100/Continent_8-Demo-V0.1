@@ -22,7 +22,7 @@ var coyote_time = 0.1
 var coyote_timer = 0.0
 
 func _ready() -> void:
-	pass
+	print("im handsome")
 
 func _physics_process(delta):
 	move_and_slide()
