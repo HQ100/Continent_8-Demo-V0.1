@@ -16,7 +16,7 @@ var beheaded := false
 var ended
 var Death = false
 
-@export var char_delay := 0.05 
+@export var char_delay := 0.1
 var _typing := false
 var type_cooldown := false
 var _dialogue_finished := false
@@ -27,6 +27,7 @@ var _waiting_next := false
 var label_origin := Vector2.INF
 @onready var lablel_pos_y = $Label.global_position.y
 var Ui_mike = false
+var Stopper = false
 
 func _ready() -> void:
 	pass
@@ -109,18 +110,9 @@ func _physics_process(delta: float) -> void:
 		$AnimationPlayer.play("RESET")
 		velocity.x = 0
 
-	if freed and animation_number == 8 and not end_point:
-		if player_position_x - global_position.x > 50:
-			velocity.x = speed
-			$AnimationPlayer.play("Walk")
-			$AnimatedSprite2D.flip_h = false
-
-		elif player_position_x - global_position.x < -50:
-			velocity.x = -speed
-			$AnimationPlayer.play("Walk")
-			$AnimatedSprite2D.flip_h = true
-		else:
-			$AnimationPlayer.play("RESET")
+	if freed and animation_number == 8 and not end_point and not Stopper:
+		velocity.x = speed
+		$AnimationPlayer.play("Walk")
 
 	move_and_slide()
 
@@ -137,7 +129,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = speed
 		elif beheaded and ended:
 			velocity.x = 0
-			global_position.y =global_position.y + 1
+			global_position.y = global_position.y + 1
 			set_physics_process(false)
 			$Slave2Area/CollisionShape2D.disabled = true
 
@@ -176,6 +168,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 	elif anim_name == "WalkHappy_2":
 		ended = true
+
 	elif anim_name == "Talk3":
 		await get_tree().create_timer(4.6).timeout
 		$Label2.text = "Mike dyson joins the party"
@@ -189,18 +182,16 @@ func party():
 	# Move label up by 50 pixels
 	tween.tween_property(label, "position:y", label.position.y - 25, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-	# Fade out (modulate.a = alpha)
+	# Fade out
 	tween.tween_property(label, "modulate:a", 0.0, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
-	# When finished, reset the label if you want
+	# Reset label after finishing
 	tween.tween_callback(func():
 		label.modulate.a = 1.0
 		label.position.y = label_origin.y
 		label.text = ""
 	)
 
-	
-	
 func _on_timer_timeout() -> void:
 	$Timer.stop()
 	if infront_of_player:
@@ -213,7 +204,7 @@ func _on_timer_timeout() -> void:
 
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name == "Wave2":
-		show_flying_text(["HEEEEY DONT LEAVE ME HERE!!!"])
+		show_flying_text(["HEEEEY DONT LEAVE ME HERE I HAVE THE KEEYYYY!!!"])
 		type_cooldown = true
 	if anim_name == "Talk1":
 		show_flying_text(["I Can't Believe it!"])
@@ -233,7 +224,7 @@ func _on_animation_player_animation_started(anim_name: StringName) -> void:
 		velocity.x = 0
 	if anim_name == "WalkHappy" and $".".global_position.x < 90:
 		show_flying_text(["FREEDOM!!!"])
-		
+
 func _on_timer_2_timeout() -> void:
 	type_cooldown = false
 	$Label.text = ""
@@ -246,11 +237,9 @@ func _on_timer_2_timeout() -> void:
 		elif animation_number == 6:
 			animation_number = 7
 			$Label.text = ""
-		if jail_3 :
+		if jail_3:
 			Death = true
-			
 
-# 🎯 Godot 4.x-compatible Label Shake
 func shake_label():
 	var label := $Label
 

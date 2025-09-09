@@ -17,3 +17,6 @@ func EarthSlam():
 	$EarthSlam2.restart()
 	$EarthSlam3.restart()
 	
+func Blood2():
+	$Blood2.emitting = false
+	$Blood2.restart()

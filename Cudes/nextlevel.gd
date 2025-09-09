@@ -9,7 +9,6 @@ func _ready() -> void:
 
 	$VideoStreamPlayer.play()
 
-
 func _physics_process(delta: float) -> void:
 	if start:
 		start = false

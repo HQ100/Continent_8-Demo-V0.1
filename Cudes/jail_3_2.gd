@@ -4,6 +4,7 @@ var player_scene = preload("res://Scenes/player.tscn")
 var player = player_scene.instantiate()
 var slave2_scene = preload("res://Scenes/slave_2.tscn")
 var slave2 = slave2_scene.instantiate()
+var jail_3_2_scene = preload("res://Scenes/jail_3_2.tscn")
 var stop = false
 var stop2 = false
 var scene = false
@@ -14,12 +15,15 @@ var dmgshow = true
 var flash_started = false
 
 func _ready() -> void:
+	fade_in_from_black(2)
+	
 	add_child(player)
 	player.set_physics_process(false)
 	player.global_position = Vector2(120, 263.44555)
 	$Slave2head/Sprite2D.flip_h = true
 	$Camera2D.global_position.x = 5001.6
 	Health_bar()
+	visibleHealth()
 	stop2 = true
 	$PrisonGuard/RayCast2D.enabled = true
 	$PrisonGuard.entrance_switch = false
@@ -38,9 +42,27 @@ func _ready() -> void:
 	add_child(dmg_overlay)
 
 func _physics_process(delta: float):
-	# --- GUARD DEATH: WHITE FLASH + SCENE SWITCH ---
+	if player.Death:
+		$PrisonGuard.set_physics_process(false)
+		$PrisonGuard/AnimationPlayer.stop()
+		$PrisonGuard/AnimationPlayer.play("Heal")
+		await get_tree().create_timer(1.2).timeout
+		await fade_to_black_and_change_scene("res://Scenes/jail_3_2.tscn")
 	if $PrisonGuard.death and not flash_started:
 		flash_started = true
+		player.Inputs = false
+		player.velocity.x = 0
+		player.velocity.y = 385
+		player.get_child(5).play("UnarmedIdle")
+		$StaticBody2D2/CollisionShape2D.disabled = true
+		await get_tree().create_timer(1.4).timeout
+		player.velocity.x = player.speed
+		player.global_rotation = 0
+		player.global_scale = Vector2(1,1)
+		player.get_child(5).play("Run")
+		await get_tree().create_timer(1.4).timeout
+		$PrisonGuard/AnimationPlayer2.play("purpledeath")
+		$PrisonGuard/Explosion.Blood2()
 		await start_flash_and_change_scene()
 		return
 
@@ -53,7 +75,7 @@ func _physics_process(delta: float):
 	if player.invinc == true and dmgshow:
 		dmgshow = false
 		show_damage_overlay()
-	if not dmgshow:
+	if not dmgshow and player.Death != true:
 		await get_tree().create_timer(1.5).timeout
 		dmgshow = true
 
@@ -113,38 +135,80 @@ func _on_skipper_timeout() -> void:
 	$StaticBody2D/CollisionShape2D2.disabled = false
 	player.set_physics_process(true)
 
-
-# --- WHITE FLASH + SCENE CHANGE ---
 func start_flash_and_change_scene() -> void:
 	var flash = ColorRect.new()
+	flash.color = Color(1, 1, 1, 0.0) # start transparent
 	flash.scale = Vector2(1000,1000)
-	flash.color = Color(1, 1, 1, 0.0) # transparent white
 	flash.size = get_viewport_rect().size
 	flash.z_index = 20
 	add_child(flash)
 
-	var flashes = 2
 	var flash_alpha = 0.75
 	var flash_duration = 0.2
 	var wait_duration = 0.1
 
-	for i in range(flashes):
-		# fade in
-		var t := 0.0
-		while t < flash_duration:
-			t += get_process_delta_time()
-			flash.color.a = lerp(0.0, flash_alpha, t / flash_duration)
-			await get_tree().process_frame
-		# hold full alpha
+	# --- First: Purple flash ---
+	flash.color = Color(0.6, 0.0, 0.8, 0.0) # purple, transparent start
+	var tween_purple_in := create_tween()
+	tween_purple_in.tween_property(flash, "color:a", flash_alpha, flash_duration)
+	await tween_purple_in.finished
+
+	await get_tree().create_timer(wait_duration).timeout
+
+	var tween_purple_out := create_tween()
+	tween_purple_out.tween_property(flash, "color:a", 0.0, flash_duration)
+	await tween_purple_out.finished
+
+	# --- Next: Two white flashes ---
+	for i in range(1):
+		flash.color = Color(1, 1, 1, 0.0) # reset to white, transparent
+		var tween_in := create_tween()
+		tween_in.tween_property(flash, "color:a", flash_alpha, flash_duration)
+		await tween_in.finished
+
 		await get_tree().create_timer(wait_duration).timeout
-		# fade out
-		t = 0.0
-		while t < flash_duration:
-			t += get_process_delta_time()
-			flash.color.a = lerp(flash_alpha, 0.0, t / flash_duration)
-			await get_tree().process_frame
-		flash.color.a = 0.0
+
+		var tween_out := create_tween()
+		tween_out.tween_property(flash, "color:a", 0.0, flash_duration)
+		await tween_out.finished
 
 	# remove flash node and switch scene
 	flash.queue_free()
 	get_tree().change_scene_to_file("res://Scenes/Nextlevel.tscn")
+
+
+func fade_to_black_and_change_scene(next_scene: String) -> void:
+	var fade = ColorRect.new()
+	fade.color = Color(0, 0, 0, 0.0) # black, transparent
+	fade.scale = Vector2(1000, 1000)
+	fade.size = get_viewport_rect().size
+	fade.z_index = 30
+	add_child(fade)
+
+	var tween := create_tween()
+	tween.tween_property(fade, "color:a", 1.0, 2.0) # fade in over 1 second
+	await tween.finished
+
+	# cleanup
+	fade.queue_free()
+
+	# safe scene change
+	if get_tree():
+		get_tree().change_scene_to_file(next_scene)
+func fade_in_from_black(duration: float = 2.0) -> void:
+	var fade = ColorRect.new()
+	fade.color = Color(0, 0, 0, 1.0) # fully black
+	fade.scale = Vector2(1000, 1000)
+	fade.size = get_viewport_rect().size
+	fade.z_index = 30
+	add_child(fade)
+
+	var tween := create_tween()
+	tween.tween_property(fade, "color:a", 0.0, duration) # fade out to transparent
+	await tween.finished
+
+	fade.queue_free()
+func visibleHealth():
+	$ColorRect2.visible = true
+	$ColorRect3.visible = true
+	$ColorRect4.visible = true

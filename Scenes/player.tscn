@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://b3didptdh0kc4"]
+[gd_scene load_steps=66 format=3 uid="uid://b3didptdh0kc4"]
 
 [ext_resource type="Script" uid="uid://wae8nkshfoef" path="res://Cudes/player.gd" id="1_e6xor"]
 [ext_resource type="Texture2D" uid="uid://dcx1e46j4w10n" path="res://Assets/Characters/Player/PL2.png" id="2_6t5aa"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dykda32kpiu7j" path="res://Assets/Characters/Player/PLLand.png" id="6_tx1dd"]
 [ext_resource type="Texture2D" uid="uid://b42unx25vhj7l" path="res://Assets/Characters/Player/PLRun-Sheet.png" id="7_gymyn"]
 [ext_resource type="Texture2D" uid="uid://detdjpgn3kb06" path="res://Assets/Characters/Player/UnarmedIdle2-Sheet.png" id="9_pu2lt"]
+[ext_resource type="Texture2D" uid="uid://f2kjk4jtdwkw" path="res://Assets/Characters/Player/PLjumpattack.png" id="12_7dp3o"]
 [ext_resource type="PackedScene" uid="uid://b3elxiu4kskig" path="res://Scenes/explosion.tscn" id="13_ukyrk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_431lm"]
@@ -132,6 +133,14 @@ region = Rect2(384, 0, 96, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_7dp3o"]
 atlas = ExtResource("3_fkybt")
 region = Rect2(480, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olqyp"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpjfl"]
+atlas = ExtResource("5_f1ek2")
+region = Rect2(0, 0, 96, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wekp6"]
 animations = [{
@@ -269,6 +278,17 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olqyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpjfl")
+}],
+"loop": true,
+"name": &"jump_attack",
+"speed": 5.0
 }]
 
 [sub_resource type="Animation" id="Animation_p1odr"]
@@ -297,6 +317,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [1, 2, 3, 4, 5, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerHitbox/CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(4.5, 0), Vector2(4.5, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerHitbox/CollisionShape2D:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_3smsa"]
@@ -379,6 +423,58 @@ tracks/2/keys = {
 "values": [Vector2(0, -2)]
 }
 
+[sub_resource type="Animation" id="Animation_bi64h"]
+resource_name = "Jump_Attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"jump_attack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PlayerHitbox/CollisionShape2D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, 32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CharacterBody2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-8, -2), Vector2(0, -2)]
+}
+
 [sub_resource type="Animation" id="Animation_xuaoq"]
 resource_name = "Land"
 length = 0.03
@@ -456,6 +552,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerHitbox/CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerHitbox/CollisionShape2D:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_gymyn"]
@@ -613,6 +733,7 @@ _data = {
 &"Attack": SubResource("Animation_p1odr"),
 &"Dash": SubResource("Animation_3smsa"),
 &"Jump": SubResource("Animation_ypfnu"),
+&"Jump_Attack": SubResource("Animation_bi64h"),
 &"Land": SubResource("Animation_xuaoq"),
 &"RESET": SubResource("Animation_tx1dd"),
 &"Run": SubResource("Animation_gymyn"),
@@ -631,7 +752,43 @@ size = Vector2(0, 0)
 size = Vector2(3, 3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pu2lt"]
-size = Vector2(34, 14)
+size = Vector2(39, 14)
+
+[sub_resource type="Animation" id="Animation_fd4e3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7dp3o"]
+resource_name = "purpledeath"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.436374, 0.101853, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h4iuc"]
+_data = {
+&"RESET": SubResource("Animation_fd4e3"),
+&"purpledeath": SubResource("Animation_7dp3o")
+}
 
 [node name="Player" type="CharacterBody2D" groups=["PlayerC"]]
 z_index = 1
@@ -867,8 +1024,14 @@ one_shot = true
 wait_time = 1.5
 one_shot = true
 
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h4iuc")
+}
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="area_entered" from="PlayerHurtbox" to="." method="_on_player_hurtbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
 [connection signal="timeout" from="invincibility" to="." method="_on_invincibility_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]

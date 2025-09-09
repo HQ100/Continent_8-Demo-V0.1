@@ -20,6 +20,7 @@ var Inputs = true
 # Coyote time variables
 var coyote_time = 0.1
 var coyote_timer = 0.0
+var Death = false
 
 func _ready() -> void:
 	print("im handsome")
@@ -34,7 +35,10 @@ func _physics_process(delta):
 				velocity.x = lerp(velocity.x, target_velocity.x, 11*delta)
 		
 		if Health == 0:
-			queue_free()
+			$AnimationPlayer2.play("purpledeath")
+			Inputs = false
+			velocity.x = 0
+			Death = true
 			
 		if camera:
 			$Camera2D.enabled = true
@@ -47,9 +51,10 @@ func _physics_process(delta):
 			return
 		
 		# Apply gravity if in air
-		if not is_on_floor() and !dashing:
+		if not is_on_floor() and !dashing :
 			velocity += get_gravity() * delta
-			$AnimationPlayer.play("Jump")
+			if $AnimationPlayer.current_animation != "Attack" and $AnimationPlayer.current_animation != "Jump_Attack":
+				$AnimationPlayer.play("Jump")
 			
 		var is_on_floor_now = is_on_floor()
 		if not is_on_floor():
@@ -65,12 +70,21 @@ func _physics_process(delta):
 			coyote_timer -= delta
 
 		# Jump with coyote time
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not cooldown:
-			$PlayerHitbox/CollisionShape2D.disabled = false
-			$AnimationPlayer.play("Attack")
-			cooldown = true
-			$Timer.start()
-			$Cooldown.start()
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not cooldown and !dashing:
+			if is_on_floor():
+				$PlayerHitbox/CollisionShape2D.disabled = false
+				$AnimationPlayer.play("Attack")
+				cooldown = true
+				$Timer.wait_time = 0.333
+				$Timer.start()
+				$Cooldown.start()
+			else:
+				$PlayerHitbox/CollisionShape2D.disabled = false
+				$AnimationPlayer.play("Jump_Attack")
+				cooldown = true
+				$Timer.wait_time = 0.2
+				$Timer.start()
+				$Cooldown.start()
 		if Input.is_action_just_pressed("W") and coyote_timer > 0 and !dashing:
 			velocity.y = JUMP_VELOCITY
 			coyote_timer = 0
@@ -171,3 +185,8 @@ func _on_player_hurtbox_area_entered(area: Area2D) -> void:
 
 func _on_invincibility_timeout() -> void:
 	invinc = false
+
+
+func _on_animation_player_2_animation_finished(anim_name: StringName) -> void:
+	$Explosion.Blood2()
+	$AnimatedSprite2D.visible = false

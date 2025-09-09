@@ -101,10 +101,11 @@ func _physics_process(delta: float):
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	$AnimatedSprite2D.visible = false
-	player.set_physics_process(true)
 	player.speed = 320
 	player.visible = true
 	player.can_dash = false
+	player.global_position = $AnimatedSprite2D.global_position
+	player.set_physics_process(true)
 	GlobalC.first_time_game = false
 
 

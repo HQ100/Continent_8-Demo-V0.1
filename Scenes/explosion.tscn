@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b3elxiu4kskig"]
+[gd_scene load_steps=18 format=3 uid="uid://b3elxiu4kskig"]
 
 [ext_resource type="Script" uid="uid://mi2ahgxyj567" path="res://Cudes/explosion.gd" id="1_aayv4"]
 
@@ -94,7 +94,7 @@ scale_max = 4.0
 scale_curve = SubResource("CurveTexture_aayv4")
 color_ramp = SubResource("GradientTexture1D_4okmj")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nlb0y"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bvnfy"]
 particle_flag_align_y = true
 particle_flag_rotate_y = true
 particle_flag_disable_z = true
@@ -109,6 +109,23 @@ gravity = Vector3(0, 49, 0)
 scale_max = 4.0
 scale_curve = SubResource("CurveTexture_aayv4")
 color = Color(0.733333, 0, 0, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4okmj"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+angle_min = -45.0
+angle_max = 225.0
+inherit_velocity_ratio = -0.2
+initial_velocity_min = -27.52
+initial_velocity_max = 27.52
+radial_velocity_min = 36.69
+radial_velocity_max = 36.69
+gravity = Vector3(0, 49, 0)
+scale_min = 4.0
+scale_max = 9.0
+scale_curve = SubResource("CurveTexture_aayv4")
+color = Color(0.615254, 0.000526262, 0.669656, 1)
 
 [node name="Explosion" type="Node2D"]
 script = ExtResource("1_aayv4")
@@ -164,4 +181,13 @@ lifetime = 0.8
 one_shot = true
 explosiveness = 1.0
 randomness = 0.5
-process_material = SubResource("ParticleProcessMaterial_nlb0y")
+process_material = SubResource("ParticleProcessMaterial_bvnfy")
+
+[node name="Blood2" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+lifetime = 1.2
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_4okmj")

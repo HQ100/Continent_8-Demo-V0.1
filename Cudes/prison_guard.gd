@@ -46,7 +46,8 @@ func _physics_process(delta: float):
 		phase4 = true
 	if death:
 		print("win")
-		visible = false
+		$AnimationPlayer.stop()
+		$AnimationPlayer.play("Death")
 		set_physics_process(false)
 	if entrance and not gravity:
 		scale = Vector2(1,-1)
@@ -145,7 +146,7 @@ func _physics_process(delta: float):
 			var attack_name = attack_pool.pop_front()
 			$AnimationPlayer.play(attack_name)
 			
-		if velocity.x != 0 and is_attacking == false:
+		if velocity.x != 0 and is_attacking == false and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
 			$AnimationPlayer.play("Walk")
 			
 		move_and_slide()
@@ -183,7 +184,7 @@ func _physics_process(delta: float):
 				scale = Vector2(1,1)
 				rotation = 0
 				velocity.x = 50
-			elif target_pos < 30 and target_pos > -30 and not is_attacking:
+			elif target_pos < 30 and target_pos > -30 and not is_attacking and not $AnimationPlayer.current_animation == "Death" and not $AnimationPlayer.current_animation == "Heal":
 				velocity.x = 0
 				$AnimationPlayer.play("Idle")
 				
@@ -313,7 +314,7 @@ func _physics_process(delta: float):
 			$EntranceTimer.start()
 			special_end = false
 			
-		if velocity.x != 0 and is_attacking == false:
+		if velocity.x != 0 and is_attacking == false and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
 			$AnimationPlayer.play("Walk")
 			
 		move_and_slide()
@@ -505,4 +506,8 @@ func Hitstop(timescale, duration):
 func _on_earth_slam_timeout() -> void:
 	$Explosion.EarthSlam()
 	get_parent().screen_shake(3, 0.25, 0.02) # call shake in parent scene
-	
+
+func _on_animation_player_2_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "purpledeath":
+		print("hello world!")
+		$Sprite2D.visible = false

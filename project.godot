@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="NGPE"
-run/main_scene="uid://dhtamcf7iygca"
+run/main_scene="uid://3f44uo85h7cl"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]

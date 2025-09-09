@@ -694,7 +694,6 @@ size = Vector2(2, 20)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_pq0tj")
-char_delay = 0.1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3uy0p")
