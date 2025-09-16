@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://dhtamcf7iygca"]
+[gd_scene load_steps=35 format=4 uid="uid://dhtamcf7iygca"]
 
 [ext_resource type="Script" uid="uid://bjcvy2b67e0yq" path="res://Cudes/jail_3.gd" id="1_cq7vp"]
 [ext_resource type="PackedScene" uid="uid://dy5j2aqwhqb2f" path="res://Scenes/prison_guard.tscn" id="3_3s3k0"]
@@ -14,6 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://chm36lfn2r1ny" path="res://Assets/UI_assets/HealthBar_under.png" id="12_eird0"]
 [ext_resource type="Texture2D" uid="uid://durclohri2yjs" path="res://Assets/UI_assets/HealthBar_over.png" id="13_jkvy7"]
 [ext_resource type="Texture2D" uid="uid://v5h7r2jmnuga" path="res://Assets/UI_assets/HealthBar_progress.png" id="14_5sror"]
+[ext_resource type="Texture2D" uid="uid://v6imiuauq0m3" path="res://Assets/UI_assets/UI_PlayerHP-Sheet.png" id="15_peoci"]
+[ext_resource type="Texture2D" uid="uid://cio0w56ry4lhn" path="res://Assets/UI_assets/UI_Heart.png" id="16_flktg"]
+[ext_resource type="Texture2D" uid="uid://c4yoa15mq16kg" path="res://Assets/UI_assets/UI_NpcHP-Sheet.png" id="17_qjly8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f4wv4"]
 texture = ExtResource("4_5vjyc")
@@ -80,6 +83,84 @@ _data = {
 &"Health_bar": SubResource("Animation_jkvy7"),
 &"RESET": SubResource("Animation_5sror")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emhmw"]
+atlas = ExtResource("15_peoci")
+region = Rect2(270, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw6cy"]
+atlas = ExtResource("15_peoci")
+region = Rect2(180, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uily"]
+atlas = ExtResource("15_peoci")
+region = Rect2(90, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei4fs"]
+atlas = ExtResource("15_peoci")
+region = Rect2(0, 0, 90, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pgil4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emhmw")
+}],
+"loop": true,
+"name": &"0_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw6cy")
+}],
+"loop": true,
+"name": &"1_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uily")
+}],
+"loop": true,
+"name": &"2_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ei4fs")
+}],
+"loop": true,
+"name": &"3_HP",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tllb6"]
+atlas = ExtResource("17_qjly8")
+region = Rect2(60, 0, 60, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6sw"]
+atlas = ExtResource("17_qjly8")
+region = Rect2(0, 0, 60, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ykp21"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tllb6")
+}],
+"loop": true,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6sw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="jail_3" type="Node2D"]
 script = ExtResource("1_cq7vp")
@@ -212,28 +293,29 @@ libraries = {
 &"": SubResource("AnimationLibrary_peoci")
 }
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-visible = false
-offset_left = 99.0
-offset_top = 4.0
-offset_right = 111.0
-offset_bottom = 16.0
-color = Color(0.65098, 0, 0, 1)
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
-[node name="ColorRect3" type="ColorRect" parent="."]
-visible = false
-offset_left = 117.0
-offset_top = 4.0
-offset_right = 129.0
-offset_bottom = 16.0
-color = Color(0.65098, 0, 0, 1)
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="CanvasLayer2"]
+position = Vector2(55, 26)
+sprite_frames = SubResource("SpriteFrames_pgil4")
+animation = &"3_HP"
 
-[node name="ColorRect4" type="ColorRect" parent="."]
-visible = false
-offset_left = 134.0
-offset_top = 4.0
-offset_right = 146.0
-offset_bottom = 16.0
-color = Color(0.65098, 0, 0, 1)
+[node name="UiHeart" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(-3.5, -3.5)
+texture = ExtResource("16_flktg")
+
+[node name="UiHeart2" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(12.5, -3.5)
+texture = ExtResource("16_flktg")
+
+[node name="UiHeart3" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(28.5, -3.5)
+texture = ExtResource("16_flktg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer2"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(40, 61)
+sprite_frames = SubResource("SpriteFrames_ykp21")
+animation = &"Death"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

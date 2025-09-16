@@ -21,11 +21,32 @@ var Inputs = true
 var coyote_time = 0.1
 var coyote_timer = 0.0
 var Death = false
+var facing_right 
+var landed_attack = false
 
 func _ready() -> void:
 	print("im handsome")
 
 func _physics_process(delta):
+	
+	if landed_attack:
+		landed_attack = false
+		$CharacterBody2D/RigidBody2D.freeze = true
+		$CharacterBody2D/RigidBody2D2.freeze = true
+		$CharacterBody2D/RigidBody2D3.freeze = true
+		$CharacterBody2D/RigidBody2D4.freeze = true
+		$CharacterBody2D/RigidBody2D5.freeze = true
+		$CharacterBody2D/RigidBody2D6.freeze = true
+		if facing_right:
+			velocity.x = -500
+		else: velocity.x = 500
+		await  get_tree().create_timer(0.1).timeout
+		$CharacterBody2D/RigidBody2D.freeze = false
+		$CharacterBody2D/RigidBody2D2.freeze = false
+		$CharacterBody2D/RigidBody2D3.freeze = false
+		$CharacterBody2D/RigidBody2D4.freeze = false
+		$CharacterBody2D/RigidBody2D5.freeze = false
+		$CharacterBody2D/RigidBody2D6.freeze = false
 	move_and_slide()
 	if Inputs:
 		if not dashing:
@@ -70,7 +91,7 @@ func _physics_process(delta):
 			coyote_timer -= delta
 
 		# Jump with coyote time
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not cooldown and !dashing:
+		if (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_action_just_pressed("J")) and !cooldown and !dashing:
 			if is_on_floor():
 				$PlayerHitbox/CollisionShape2D.disabled = false
 				$AnimationPlayer.play("Attack")
@@ -96,10 +117,11 @@ func _physics_process(delta):
 		if Input.is_action_pressed("D"):
 			$".".rotation = 0
 			$".".scale = Vector2(1,1)
+			facing_right = true
 		elif Input.is_action_pressed("A"):
 			$".".rotation = PI
 			$".".scale = Vector2(1,-1)
-			
+			facing_right = false
 		if Input.is_action_pressed("Shift") or forcewalk == true:
 			walking = true
 		else:
@@ -141,6 +163,7 @@ func _physics_process(delta):
 					dash_direction = Vector2(-1,0)
 			velocity = dash_direction * dash_speed 
 			$PlayerHurtbox/CollisionShape2D.disabled = true
+			$PlayerHurtbox/CollisionShape2D2.disabled = true
 			if dash_direction != Vector2(0,dash_direction.y):
 				$DashP1.visible = true
 				$DashP2.visible = true 
@@ -154,6 +177,7 @@ func _physics_process(delta):
 			await get_tree().create_timer(0.01).timeout  
 			frozen = false
 			$PlayerHurtbox/CollisionShape2D.disabled = false
+			$PlayerHurtbox/CollisionShape2D2.disabled = false
 			if Input.is_action_pressed("D") or Input.is_action_pressed("A"):
 				velocity = dash_direction * speed 
 				velocity.y = 0
@@ -181,12 +205,18 @@ func _on_player_hurtbox_area_entered(area: Area2D) -> void:
 		$Explosion.Blood()
 		Hitstop(0.05,0.10)
 		invinc = true
+		if Health <= 1:
+			$AnimationPlayer2.play("invinc")
 		$invincibility.start()
+		if facing_right:
+			velocity.x = -1000
+		else: velocity.x = 1000
 
 func _on_invincibility_timeout() -> void:
 	invinc = false
 
 
 func _on_animation_player_2_animation_finished(anim_name: StringName) -> void:
-	$Explosion.Blood2()
-	$AnimatedSprite2D.visible = false
+	if anim_name == "purpledeath":
+		$Explosion.Blood2()
+		$AnimatedSprite2D.visible = false

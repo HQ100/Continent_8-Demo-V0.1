@@ -132,6 +132,9 @@ func _physics_process(delta: float) -> void:
 			global_position.y = global_position.y + 1
 			set_physics_process(false)
 			$Slave2Area/CollisionShape2D.disabled = true
+			$Label2.text = "Mike dyson left the party"
+			Ui_mike = false
+			party()
 
 func show_flying_text(lines: Array[String]) -> void:
 	if _typing:
@@ -205,9 +208,11 @@ func _on_timer_timeout() -> void:
 func _on_animation_player_animation_started(anim_name: StringName) -> void:
 	if anim_name == "Wave2":
 		show_flying_text(["HEEEEY DONT LEAVE ME HERE I HAVE THE KEEYYYY!!!"])
+		char_delay = 0.05
 		type_cooldown = true
 	if anim_name == "Talk1":
 		show_flying_text(["I Can't Believe it!"])
+		char_delay = 0.1
 		type_cooldown = true
 		velocity.x = 0
 	if anim_name == "Talk2":

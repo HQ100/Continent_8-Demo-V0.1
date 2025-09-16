@@ -13,8 +13,13 @@ var start = false
 var dmg_overlay : ColorRect
 var dmgshow = true
 var flash_started = false
+var counted = false
 
 func _ready() -> void:
+	var color = Color(1,1,1,1)
+	$CanvasLayer2/AnimatedSprite2D.self_modulate = color
+	$CanvasLayer2/AnimatedSprite2D.play("Death")
+	$CanvasLayer2/AnimatedSprite2D2.play("3_HP")
 	fade_in_from_black(2)
 	
 	add_child(player)
@@ -23,15 +28,15 @@ func _ready() -> void:
 	$Slave2head/Sprite2D.flip_h = true
 	$Camera2D.global_position.x = 5001.6
 	Health_bar()
-	visibleHealth()
 	stop2 = true
 	$PrisonGuard/RayCast2D.enabled = true
+	$PrisonGuard/RayCast2D2.enabled = true
 	$PrisonGuard.entrance_switch = false
 	$PrisonGuard.skip_cutscene = false
 	$PrisonGuard.global_scale = Vector2(1,-1)
 	$PrisonGuard.global_rotation = PI
 	$Skipper.start()
-	
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	# --- DAMAGE OVERLAY ---
 	dmg_overlay = ColorRect.new()
 	dmg_overlay.z_index = 2
@@ -42,13 +47,33 @@ func _ready() -> void:
 	add_child(dmg_overlay)
 
 func _physics_process(delta: float):
+	if $PrisonGuard.im_hit:
+		player.landed_attack = true
+		
+	if player.Health == 2:
+		$CanvasLayer2/AnimatedSprite2D2/UiHeart3.visible = false
+		$CanvasLayer2/AnimatedSprite2D2.play("2_HP")
+	if player.Health == 1:
+		$CanvasLayer2/AnimatedSprite2D2/UiHeart2.visible = false
+		$CanvasLayer2/AnimatedSprite2D2.play("1_HP")
+	if player.Health == 0:
+		$CanvasLayer2/AnimatedSprite2D2/UiHeart.visible = false
+		$CanvasLayer2/AnimatedSprite2D2.play("0_HP")
+
+
 	if player.Death:
+		if not counted:
+			GlobalC.death_counter += 1
+			counted = true
 		$PrisonGuard.set_physics_process(false)
 		$PrisonGuard/AnimationPlayer.stop()
 		$PrisonGuard/AnimationPlayer.play("Heal")
 		await get_tree().create_timer(1.2).timeout
 		await fade_to_black_and_change_scene("res://Scenes/jail_3_2.tscn")
+
 	if $PrisonGuard.death and not flash_started:
+		player.get_child(6).get_child(0).disabled = true
+		player.get_child(6).get_child(1).disabled = true
 		flash_started = true
 		player.Inputs = false
 		player.velocity.x = 0
@@ -57,8 +82,8 @@ func _physics_process(delta: float):
 		$StaticBody2D2/CollisionShape2D.disabled = true
 		await get_tree().create_timer(1.4).timeout
 		player.velocity.x = player.speed
-		player.global_rotation = 0
-		player.global_scale = Vector2(1,1)
+		player.rotation = 0
+		player.scale = Vector2(1,1)
 		player.get_child(5).play("Run")
 		await get_tree().create_timer(1.4).timeout
 		$PrisonGuard/AnimationPlayer2.play("purpledeath")
@@ -94,9 +119,9 @@ func _physics_process(delta: float):
 			player.velocity.x = 0
 		player.Inputs = false
 		if direc >= 0 :
-			player.velocity.x = -2300
+			player.velocity = Vector2(-2300,200)
 		else:
-			player.velocity.x = 2300
+			player.velocity = Vector2(2300,200)
 		scene = true
 		await get_tree().create_timer(2.7).timeout
 		$TextureProgressBar.max_value = 300
@@ -208,7 +233,3 @@ func fade_in_from_black(duration: float = 2.0) -> void:
 	await tween.finished
 
 	fade.queue_free()
-func visibleHealth():
-	$ColorRect2.visible = true
-	$ColorRect3.visible = true
-	$ColorRect4.visible = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://d2pjb4vkt1jxp"]
+[gd_scene load_steps=41 format=3 uid="uid://d2pjb4vkt1jxp"]
 
 [ext_resource type="Texture2D" uid="uid://dfyn8v3lck432" path="res://Assets/Environment/Tutorial/TutorialBG.png" id="1_36f4f"]
 [ext_resource type="Script" uid="uid://scg5jv6royml" path="res://Cudes/toturial.gd" id="1_blrru"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://ckwadkph4sd3g" path="res://Assets/Environment/Tutorial/Exit.png" id="7_72oxd"]
 [ext_resource type="Texture2D" uid="uid://b5asdtfhtsqe5" path="res://Assets/Characters/Player/PLWakeUp-Sheet.png" id="8_4eaj6"]
 [ext_resource type="PackedScene" uid="uid://bgb10jbb52klp" path="res://Scenes/ui_key.tscn" id="9_whhpt"]
+[ext_resource type="Texture2D" uid="uid://v6imiuauq0m3" path="res://Assets/UI_assets/UI_PlayerHP-Sheet.png" id="10_jch5j"]
+[ext_resource type="Texture2D" uid="uid://cio0w56ry4lhn" path="res://Assets/UI_assets/UI_Heart.png" id="11_asy2e"]
+[ext_resource type="Texture2D" uid="uid://c4yoa15mq16kg" path="res://Assets/UI_assets/UI_NpcHP-Sheet.png" id="12_ol2ky"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qe1h8"]
 
@@ -165,6 +168,84 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emhmw"]
+atlas = ExtResource("10_jch5j")
+region = Rect2(270, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw6cy"]
+atlas = ExtResource("10_jch5j")
+region = Rect2(180, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uily"]
+atlas = ExtResource("10_jch5j")
+region = Rect2(90, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei4fs"]
+atlas = ExtResource("10_jch5j")
+region = Rect2(0, 0, 90, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8yg42"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emhmw")
+}],
+"loop": true,
+"name": &"0_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw6cy")
+}],
+"loop": true,
+"name": &"1_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uily")
+}],
+"loop": true,
+"name": &"2_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ei4fs")
+}],
+"loop": true,
+"name": &"3_HP",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6sw"]
+atlas = ExtResource("12_ol2ky")
+region = Rect2(0, 0, 60, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tllb6"]
+atlas = ExtResource("12_ol2ky")
+region = Rect2(60, 0, 60, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6h5bc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6sw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tllb6")
+}],
+"loop": true,
+"name": &"new_animation",
 "speed": 5.0
 }]
 
@@ -418,6 +499,30 @@ offset_top = 248.0
 offset_right = 628.0
 offset_bottom = 278.0
 color = Color(0.713726, 0.705882, 0.568627, 1)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="CanvasLayer2"]
+position = Vector2(55, 26)
+sprite_frames = SubResource("SpriteFrames_8yg42")
+animation = &"3_HP"
+
+[node name="UiHeart" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(-3.5, -3.5)
+texture = ExtResource("11_asy2e")
+
+[node name="UiHeart2" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(12.5, -3.5)
+texture = ExtResource("11_asy2e")
+
+[node name="UiHeart3" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(28.5, -3.5)
+texture = ExtResource("11_asy2e")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer2"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(40, 61)
+sprite_frames = SubResource("SpriteFrames_6h5bc")
 
 [connection signal="area_entered" from="Dummy/Dummy/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

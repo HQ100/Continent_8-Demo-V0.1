@@ -730,6 +730,7 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "08af4828dc95a921f6840f6970efe8bd"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(3, 19)
 shape = SubResource("RectangleShape2D_m58im")
 
@@ -738,6 +739,7 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+visible = false
 position = Vector2(1, 19)
 shape = SubResource("RectangleShape2D_hytxr")
 
@@ -746,6 +748,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+visible = false
 scale = Vector2(0.694637, 0.988436)
 shape = SubResource("RectangleShape2D_mmqoo")
 
@@ -755,13 +758,7 @@ libraries = {
 }
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(0, 12)
-target_position = Vector2(68, 0)
-collision_mask = 2
-hit_from_inside = true
-
-[node name="RayCast2D2" type="RayCast2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, 11)
 target_position = Vector2(68, 0)
 collision_mask = 2
 hit_from_inside = true

@@ -15,6 +15,7 @@ var ui_tween: Tween
 var animating_key := false
 
 func _ready():
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	$AnimatedSprite2D.play("closed")
 	add_child(player)
 	player.global_position = Vector2(118,220)
@@ -39,7 +40,15 @@ func _ready():
 		_ui_set_alpha(0.0)
 
 func _physics_process(delta: float):
-	# Fade-in
+	
+	if $Slave2.Ui_mike:
+		var tween = get_tree().create_tween()
+		# start fully transparent
+		$CanvasLayer2/AnimatedSprite2D.self_modulate.a = 0.0
+		# fade in to fully visible over 1 second
+		tween.tween_property($CanvasLayer2/AnimatedSprite2D, "self_modulate:a", 1.0, 1.0)
+
+
 	if fading_in:
 		var c = $CanvasLayer/fade.color
 		c.a -= delta / 2.0

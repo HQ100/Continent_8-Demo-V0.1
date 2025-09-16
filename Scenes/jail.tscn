@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://betv2v0vq5xyj"]
+[gd_scene load_steps=46 format=3 uid="uid://betv2v0vq5xyj"]
 
 [ext_resource type="Texture2D" uid="uid://34oe8vuc7x4g" path="res://Assets/Environment/Jail/JailOuterior.png" id="1_7h5cp"]
 [ext_resource type="Script" uid="uid://yigdjjl3mr0k" path="res://Cudes/jail.gd" id="1_sqo4u"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://b5asdtfhtsqe5" path="res://Assets/Characters/Player/PLWakeUp-Sheet.png" id="5_5ah7r"]
 [ext_resource type="Texture2D" uid="uid://chx7onx8xl6k6" path="res://Assets/Environment/Jail/Jaildoor.png" id="6_5ah7r"]
 [ext_resource type="PackedScene" uid="uid://bgb10jbb52klp" path="res://Scenes/ui_key.tscn" id="7_esr42"]
+[ext_resource type="Texture2D" uid="uid://v6imiuauq0m3" path="res://Assets/UI_assets/UI_PlayerHP-Sheet.png" id="8_33xdx"]
+[ext_resource type="Texture2D" uid="uid://cio0w56ry4lhn" path="res://Assets/UI_assets/UI_Heart.png" id="9_at4bk"]
+[ext_resource type="Texture2D" uid="uid://c4yoa15mq16kg" path="res://Assets/UI_assets/UI_NpcHP-Sheet.png" id="10_kg8jf"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jnp7u"]
 
@@ -215,6 +218,84 @@ _data = {
 &"new_animation": SubResource("Animation_esr42")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_emhmw"]
+atlas = ExtResource("8_33xdx")
+region = Rect2(270, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw6cy"]
+atlas = ExtResource("8_33xdx")
+region = Rect2(180, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uily"]
+atlas = ExtResource("8_33xdx")
+region = Rect2(90, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei4fs"]
+atlas = ExtResource("8_33xdx")
+region = Rect2(0, 0, 90, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b1qve"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emhmw")
+}],
+"loop": true,
+"name": &"0_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw6cy")
+}],
+"loop": true,
+"name": &"1_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uily")
+}],
+"loop": true,
+"name": &"2_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ei4fs")
+}],
+"loop": true,
+"name": &"3_HP",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6sw"]
+atlas = ExtResource("10_kg8jf")
+region = Rect2(0, 0, 60, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tllb6"]
+atlas = ExtResource("10_kg8jf")
+region = Rect2(60, 0, 60, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k0ss0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6sw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tllb6")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
 [node name="Jail" type="Node2D"]
 script = ExtResource("1_sqo4u")
 
@@ -305,6 +386,30 @@ texture = ExtResource("6_5ah7r")
 [node name="Ui_Key" parent="." instance=ExtResource("7_esr42")]
 z_index = 1
 position = Vector2(382, 202)
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="CanvasLayer2"]
+position = Vector2(55, 26)
+sprite_frames = SubResource("SpriteFrames_b1qve")
+animation = &"3_HP"
+
+[node name="UiHeart" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(-3.5, -3.5)
+texture = ExtResource("9_at4bk")
+
+[node name="UiHeart2" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(12.5, -3.5)
+texture = ExtResource("9_at4bk")
+
+[node name="UiHeart3" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(28.5, -3.5)
+texture = ExtResource("9_at4bk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer2"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(40, 61)
+sprite_frames = SubResource("SpriteFrames_k0ss0")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

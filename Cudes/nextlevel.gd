@@ -10,6 +10,7 @@ func _ready() -> void:
 	$VideoStreamPlayer.play()
 
 func _physics_process(delta: float) -> void:
+	
 	if start:
 		start = false
 		for child in $Lines.get_children():
@@ -40,7 +41,20 @@ func CameraZoom():
 	# Fade in black screen
 	var fade_tween = get_tree().create_tween()
 	fade_tween.tween_property($BlackFade, "self_modulate:a", 1.0, 1.5)
-
+	await get_tree().create_timer(1.5).timeout
+	$Label3.visible = true
+	$Label4.visible = true
+	if GlobalC.death_counter == 0:
+		$Label4.text = "You died " + str(GlobalC.death_counter) + " times!\nCHAD"
+	elif GlobalC.death_counter <= 10 and GlobalC.death_counter != 0:
+		$Label4.text = "You died " + str(GlobalC.death_counter) + " times!\nacceptable :thumbs up:"
+	elif GlobalC.death_counter >= 10 and GlobalC.death_counter <= 25:
+		$Label4.text = "You died " + str(GlobalC.death_counter) + " times!\nYou took long but at least u won"
+	elif GlobalC.death_counter >= 25 and GlobalC.death_counter <= 40:
+		$Label4.text = "You died " + str(GlobalC.death_counter) + " times!\nMonkey"
+	else:
+		$Label4.text = "You died " + str(GlobalC.death_counter) + " times!\nleave gaming"
+	$Camera2D2.make_current()
 
 func _on_video_stream_player_finished() -> void:
 	$"3Dlevel1".visible = true

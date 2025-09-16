@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://dwljmupe6pjri"]
+[gd_scene load_steps=59 format=4 uid="uid://dwljmupe6pjri"]
 
 [ext_resource type="Texture2D" uid="uid://be28hlwq4jrdx" path="res://Assets/Environment/Jail/BricksTileset.png" id="1_2bwik"]
 [ext_resource type="Script" uid="uid://b1hi3ld1r63to" path="res://Cudes/jail_2.gd" id="1_yy3qy"]
@@ -14,10 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://84jrjvhraeu8" path="res://Assets/Environment/Jail/Chains.png" id="9_eximd"]
 [ext_resource type="Texture2D" uid="uid://dhrgevcnok3dp" path="res://Assets/Environment/Jail/prisondoor1.png" id="10_kadfr"]
 [ext_resource type="Texture2D" uid="uid://c8syvtxyu33tn" path="res://Assets/Environment/Jail/prisondoor2.png" id="11_v22na"]
+[ext_resource type="Texture2D" uid="uid://v6imiuauq0m3" path="res://Assets/UI_assets/UI_PlayerHP-Sheet.png" id="12_xw6cy"]
 [ext_resource type="Texture2D" uid="uid://ru7f3iym3cek" path="res://Assets/Environment/Jail/Lever-Sheet.png" id="13_ymtgu"]
 [ext_resource type="PackedScene" uid="uid://dt2w6qsg5d7a0" path="res://Scenes/slave_2.tscn" id="14_wg4or"]
 [ext_resource type="Texture2D" uid="uid://rr5pn3sydkj6" path="res://Assets/Environment/Jail/prisondoor1closed.png" id="15_3n6cm"]
 [ext_resource type="Texture2D" uid="uid://dr6jl8e6hb1wi" path="res://Assets/Environment/Jail/prisondoor1closed-Sheet.png" id="16_xw6cy"]
+[ext_resource type="Texture2D" uid="uid://cio0w56ry4lhn" path="res://Assets/UI_assets/UI_Heart.png" id="20_r5pvs"]
+[ext_resource type="Texture2D" uid="uid://c4yoa15mq16kg" path="res://Assets/UI_assets/UI_NpcHP-Sheet.png" id="21_4k2vm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wt5dw"]
 texture = ExtResource("1_2bwik")
@@ -215,6 +218,84 @@ size = Vector2(32, 72)
 size = Vector2(23, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3n6cm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emhmw"]
+atlas = ExtResource("12_xw6cy")
+region = Rect2(270, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw6cy"]
+atlas = ExtResource("12_xw6cy")
+region = Rect2(180, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uily"]
+atlas = ExtResource("12_xw6cy")
+region = Rect2(90, 0, 90, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei4fs"]
+atlas = ExtResource("12_xw6cy")
+region = Rect2(0, 0, 90, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r5pvs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emhmw")
+}],
+"loop": true,
+"name": &"0_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw6cy")
+}],
+"loop": true,
+"name": &"1_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uily")
+}],
+"loop": true,
+"name": &"2_HP",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ei4fs")
+}],
+"loop": true,
+"name": &"3_HP",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6sw"]
+atlas = ExtResource("21_4k2vm")
+region = Rect2(0, 0, 60, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tllb6"]
+atlas = ExtResource("21_4k2vm")
+region = Rect2(60, 0, 60, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vmwa0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6sw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tllb6")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
 
 [node name="jail2" type="Node2D"]
 script = ExtResource("1_yy3qy")
@@ -420,6 +501,30 @@ color = Color(0, 0, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(1257, 223)
 shape = SubResource("RectangleShape2D_3n6cm")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="CanvasLayer2"]
+position = Vector2(55, 26)
+sprite_frames = SubResource("SpriteFrames_r5pvs")
+animation = &"3_HP"
+
+[node name="UiHeart" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(-3.5, -3.5)
+texture = ExtResource("20_r5pvs")
+
+[node name="UiHeart2" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(12.5, -3.5)
+texture = ExtResource("20_r5pvs")
+
+[node name="UiHeart3" type="Sprite2D" parent="CanvasLayer2/AnimatedSprite2D2"]
+position = Vector2(28.5, -3.5)
+texture = ExtResource("20_r5pvs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer2"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(40, 61)
+sprite_frames = SubResource("SpriteFrames_vmwa0")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Slave2CellDoor" to="." method="_on_slave_2_cell_door_area_entered"]

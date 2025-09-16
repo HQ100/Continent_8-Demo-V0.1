@@ -1094,7 +1094,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [1.0]
+"values": [0.8]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -1238,14 +1238,6 @@ libraries = {
 position = Vector2(320, 180)
 texture = ExtResource("7_onwio")
 
-[node name="Button" type="Button" parent="."]
-offset_left = 286.0
-offset_top = 248.0
-offset_right = 333.0
-offset_bottom = 279.0
-text = "PLAY"
-flat = true
-
 [node name="PointLight2D" type="PointLight2D" parent="."]
 visible = false
 position = Vector2(333, 189)
@@ -1254,4 +1246,3 @@ texture = ExtResource("9_jq3g5")
 texture_scale = 2.34
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

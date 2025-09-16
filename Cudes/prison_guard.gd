@@ -30,13 +30,17 @@ var Chaos = false
 var death = false
 var In_phase_2 = false
 var skip_cutscene = true
+var im_hit = false
 
 func _ready():
 	reset_attack_pool()
 	$RayCast2D.enabled = false
+	$RayCast2D2.enabled = false
 	$Hitbox/CollisionShape2D.disabled = true
 func _physics_process(delta: float):
 	
+	if im_hit:
+		im_hit = false
 	if Health <= 0 and not phase4:
 		$Atk1timer.stop()
 		await get_tree().create_timer(0.01).timeout
@@ -52,7 +56,8 @@ func _physics_process(delta: float):
 	if entrance and not gravity:
 		scale = Vector2(1,-1)
 		rotation = PI
-		$AnimationPlayer.play("Drop")
+		if Health > 0 and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
+			$AnimationPlayer.play("Drop")
 		
 	elif entrance and gravity and not is_on_floor() and entrance_switch:
 		velocity.y = 800
@@ -86,7 +91,8 @@ func _physics_process(delta: float):
 				velocity.x = 50
 			elif target_pos < 30 and target_pos > -30 and not is_attacking:
 				velocity.x = 0
-				$AnimationPlayer.play("Idle")
+				if Health > 0 and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
+					$AnimationPlayer.play("Idle")
 				
 			if target_pos > 0 and not is_attacking:
 				scale = Vector2(1,-1)
@@ -135,8 +141,9 @@ func _physics_process(delta: float):
 				
 				
 			
-		if $RayCast2D.is_colliding():
+		if $RayCast2D.is_colliding() or $RayCast2D2.is_colliding():
 			$RayCast2D.enabled = false
+			$RayCast2D2.enabled = false
 			velocity.x = 0
 			is_attacking = true
 			
@@ -171,6 +178,7 @@ func _physics_process(delta: float):
 
 			if $AnimationPlayer.current_animation == "":
 				$RayCast2D.target_position.x = $RayCast2D.target_position.x*-1
+				$RayCast2D2.target_position.x = $RayCast2D2.target_position.x*-1
 				await get_tree().create_timer(0.3).timeout
 			if not is_attacking:
 				target_pos = global_position.x - player_position_x
@@ -239,18 +247,19 @@ func _physics_process(delta: float):
 				if abs(target_pos) < 30 :
 					velocity = Vector2(0,velocity.y)
 					await get_tree().create_timer(0.5).timeout
-					$AnimationPlayer.play("Jump_attack2")
+					if Health > 0 and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
+						$AnimationPlayer.play("Jump_attack2")
 					velocity.y = 500
 					
-			if special:
+			if special and not death:
 				special = false
 				await get_tree().create_timer(1.0).timeout
 				phase2 = true
-			if phase2:
+			if phase2 and not death:
 				knife_attack()
 				phase2 = false
 				
-			if phase3:
+			if phase3 and not death:
 				phase3 = false
 				arrow_attack()
 				await get_tree().create_timer(1.0).timeout
@@ -277,19 +286,22 @@ func _physics_process(delta: float):
 				stop_after_attack = false
 				
 		$RayCast2D.target_position.x = 230
-		if $RayCast2D.is_colliding():
+		$RayCast2D2.target_position.x = 230
+		if $RayCast2D.is_colliding() or $RayCast2D2.is_colliding() :
 			$RayCast2D.enabled = false
+			$RayCast2D2.enabled = false
 			velocity.x = 0
 			is_attacking = true
 
-			if attack_pool.is_empty() and !special and !special_end:
+			if attack_pool.is_empty() and !special and !special_end and not death and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
 				special = true
 				$AnimationPlayer.play("Jump")
 				velocity = Vector2(target_pos,-1000)
 				Chaos = false
 				await get_tree().create_timer(1.0).timeout
-				velocity = Vector2.ZERO
-				global_position.x = 1500
+				if not death:
+					velocity = Vector2.ZERO
+					global_position.x = 1500
 				
 			var attack_name = attack_pool.pop_front()
 			
@@ -309,7 +321,8 @@ func _physics_process(delta: float):
 			velocity.y = 800
 			entrance = true
 			rotation = PI
-			$AnimationPlayer.play("DROPPPPPPP")
+			if Health > 0 and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
+				$AnimationPlayer.play("DROPPPPPPP")
 			$EntranceTimer.wait_time = 1.75
 			$EntranceTimer.start()
 			special_end = false
@@ -431,7 +444,7 @@ func reset_attack_pool():
 		attack_pool.shuffle()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if Health > 0:
+	if Health > 0 and $AnimationPlayer.current_animation != "Heal" and $AnimationPlayer.current_animation != "Death":
 		if anim_name == "Attack2":
 			velocity.x = 0.0
 			is_attacking = false
@@ -459,9 +472,10 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 				is_attacking = false
 				stopper = true
 				$AnimationPlayer.play("Entrance")
-				
+
 func _on_cooldown_timeout() -> void:
 	$RayCast2D.enabled = true
+	$RayCast2D2.enabled = true
 
 
 func _on_atk_1_timer_timeout() -> void:
@@ -479,16 +493,19 @@ func _on_atk_1_timer_timeout() -> void:
 func _on_entrance_timer_timeout() -> void:
 	entrance = false
 	$RayCast2D.enabled = true
+	$RayCast2D2.enabled = true
 	if phase4:
 		await get_tree().create_timer(0.8).timeout
 		Chaos = true
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
+	print("hello world!")
 	if area.name == "PlayerHitbox" and not invinc:
 		invinc = true
 		Health -=6
 		$AnimationPlayer2.play("Flash")
 		Hitstop(0.05,0.05)
+		im_hit = true
 		var color = Color()
 		$Sprite2D.self_modulate = color
 		await get_tree().create_timer(0.2).timeout

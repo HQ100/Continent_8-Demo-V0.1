@@ -2,7 +2,7 @@ extends Node2D
 
 var tutorial_scene = preload("res://Scenes/toturial.tscn")
 @export var shake_key = false  # animation player will toggle this
-
+var _bg2 = preload("res://Assets/Environment/Jail/JailBg2-Sheet.png")
 var shaking := false
 
 func _physics_process(delta: float) -> void:
@@ -13,10 +13,11 @@ func _physics_process(delta: float) -> void:
 		screen_shake(10.0, 0.4, 0.03)
 
 
-func _on_button_pressed() -> void:
+func _ready() -> void:
+	await get_tree().create_timer(2.0).timeout
 	$AnimationPlayer.play("JailBg2")
 	$PointLight2D.visible = true
-	$Button.queue_free()
+
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
