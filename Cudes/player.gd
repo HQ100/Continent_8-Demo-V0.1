@@ -55,7 +55,7 @@ func _physics_process(delta):
 			else:
 				velocity.x = lerp(velocity.x, target_velocity.x, 11*delta)
 		
-		if Health == 0:
+		if Health <= 0:
 			$AnimationPlayer2.play("purpledeath")
 			Inputs = false
 			velocity.x = 0
